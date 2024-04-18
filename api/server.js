@@ -72,6 +72,19 @@ server.put( '/api/dogs/:id', ( req, res ) => {
 })
 
 // [DELETE] /api/dogs/:id (D of CRUD, remove dog with :id)
+server.delete( '/api/dogs/:id', (req, res) => {
+	Dogs.delete(req.params.id)
+		.then( (dog) => {
+			if (dog) {
+				res.status(200).json(dog)
+			} else {
+				res.status(404).json({message: `error dog with id ${req.params.id} not found`})
+			}
+		})
+		.catch( (err) => {
+			res.status(500).json({message: `Server error: ${err.message}`})
+		})
+} )
 
 // EXPOSING THE SERVER TO OTHER MODULES
 module.exports = server
