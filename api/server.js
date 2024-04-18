@@ -55,6 +55,22 @@ server.post( '/api/dogs', async ( req, res ) => {
 } )
 
 // [PUT]    /api/dogs/:id (U of CRUD, update dog with :id using JSON payload)
+
+server.put( '/api/dogs/:id', ( req, res ) => {
+	Dogs.update(req.params.id, req.body)
+		.then( (dog) => {
+			if (dog) {
+				res.status(200).json(dog)
+			} else {
+				res.status(404).json({message: `Dog with id: ${req.params.id} not found`})
+			}
+			
+		})
+		.catch( (err) => {
+			res.status(500).json({message: `Error updating Dog ${req.body.name}: ${err.message}`})
+		})
+})
+
 // [DELETE] /api/dogs/:id (D of CRUD, remove dog with :id)
 
 // EXPOSING THE SERVER TO OTHER MODULES
